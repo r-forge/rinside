@@ -26,4 +26,27 @@ if [ -x /usr/bin/doxygen ]; then
     cd ${cwd}
     pwd
 
+    cd inst/doc
+    zip -9r rinside-doc-html.zip html/
+    zip -9r rinside-doc-man.zip man
+    zip -9r rinside-doc-latex.zip latex
+    if [ -d ~/www/code/rinside/ ]; then
+	mv -v rinside-doc-*.zip ~/www/code/rinside/
+	rsync --delete -avu html ~/www/code/rinside/
+    fi
+    cd ${cwd}
+
+    cd inst/doc/latex
+    pdflatex refman
+    pdflatex refman
+    if [ -d ~/www/code/rinside/ ]; then
+	cp -vax refman.pdf ~/www/code/rinside/RInside_refman.pdf
+    fi
+    cd ${cwd}
+
+#    if [ -d ~/www/code/rinside/ ]; then
+#	cp -vax inst/doc/RInside-*.pdf ~/www/code/rinside
+#    fi
+#    cd ${cwd}
+
 fi
